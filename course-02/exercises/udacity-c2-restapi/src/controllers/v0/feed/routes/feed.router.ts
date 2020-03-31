@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { FeedItem } from '../models/FeedItem';
 import { requireAuth } from '../../users/routes/auth.router';
 import * as AWS from '../../../../aws';
+import { Request, Response } from 'aws-sdk';
 
 const router: Router = Router();
 
@@ -19,12 +20,36 @@ router.get('/', async (req: Request, res: Response) => {
 //@TODO
 //Add an endpoint to GET a specific resource by Primary Key
 
+router.get('/:id', requireAuth, async(req: Request, res: Response) =>{
+    let { id } = req.params
+    if(!id){
+        res.send(404).send("Feed not found or doesnot exist")
+    }
+    const item = await FeedItem.findByPk(id);
+    res.send(item)
+})
+
 // update a specific resource
 router.patch('/:id', 
     requireAuth, 
     async (req: Request, res: Response) => {
         //@TODO try it yourself
-        res.send(500).send("not implemented")
+        let { id } = req.params
+        let { caption, url } = req.body
+        if(!id){
+            return res.send(400).send("Id is required")
+        }
+        const item = await FeedItem.findByPk(id);
+
+        if(caption){
+            item.caption = caption
+        }
+        if(url) {
+            item.url = url
+        }
+        const saved = await item.save()
+        console.log("saved instnce is ", saved)
+        return res.send(201).send(saved)
 });
 
 
