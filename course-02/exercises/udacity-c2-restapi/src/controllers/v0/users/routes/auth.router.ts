@@ -12,17 +12,16 @@ const router: Router = Router();
 
 async function generatePassword(plainTextPassword: string): Promise<string> {
     //@TODO Use Bcrypt to Generated Salted Hashed Passwords
-    //the below is to trick typescript to pass compilation 
-    return new Promise((resolve, reject) =>{
-        resolve(" hello")
-    })
+    const saltrounds = 10
+    const salt = await bcrypt.genSalt(saltrounds)
+    const hash = await bcrypt.hash(plainTextPassword, salt)
+    return hash
 }
 
 async function comparePasswords(plainTextPassword: string, hash: string): Promise<boolean> {
     //@TODO Use Bcrypt to Compare your password to your Salted Hashed Password
-    return new Promise((resolve, reject) => {
-        resolve(true)
-    })
+        let compare = await bcrypt.compare(plainTextPassword, hash)
+        return compare
 }
 
 function generateJWT(user: User): string {
