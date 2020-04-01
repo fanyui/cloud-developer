@@ -12,14 +12,22 @@ const router: Router = Router();
 
 async function generatePassword(plainTextPassword: string): Promise<string> {
     //@TODO Use Bcrypt to Generated Salted Hashed Passwords
+    //the below is to trick typescript to pass compilation 
+    return new Promise((resolve, reject) =>{
+        resolve(" hello")
+    })
 }
 
 async function comparePasswords(plainTextPassword: string, hash: string): Promise<boolean> {
     //@TODO Use Bcrypt to Compare your password to your Salted Hashed Password
+    return new Promise((resolve, reject) => {
+        resolve(true)
+    })
 }
 
 function generateJWT(user: User): string {
     //@TODO Use jwt to create a new JWT Payload containing
+    return "JWt Generated success"
 }
 
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
