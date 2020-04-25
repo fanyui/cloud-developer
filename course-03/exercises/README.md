@@ -25,7 +25,7 @@ Clone repo:
     - Run`npm run dev` to run server locally
 
 
-- I created the `prod` branch which will hold the final deployment to production.
+- I allowed the `master` branch which will hold the final deployment to production while the dev branch holds development work at each instant.
 
 
 ## Setup Docker Environment
